@@ -3,7 +3,9 @@
 
 ```julia
 origen¿? inicio
+
 #comentario
+
 variable1= 2
 variable2= 3
 variable5= variable1+5
