@@ -1,94 +1,74 @@
-
-texto = "origen inicio\n#comentario\nvariable1= 200000000\nvariable2= 3\nvariable5= variable1+5\n\nsi variable1==1 inicio\n imprimir\"ola\"\nfin\n\nfin      "
-
+f = open("holamundo.val")
+read(f,String)
+texto = String(take!(f))
 
 cantidad_caracteres = length(texto)
 indice=1
 
 while(indice<= cantidad_caracteres)
-global indice
+	global indice
+	try
+		if (texto[indice]== ' ' || texto[indice]== '\t' || texto[indice]== '\n')
+           indice=indice
 
-#println("carecter leido:  "* texto[indice])
+		elseif texto[indice]== '?'
+			println("\tsimbolo_de_?\t?")
 
-if texto[indice]== '+'
-println("   operador     +")
-end
+		elseif texto[indice]== '¿'
+			println("\tsimbolo_de_¿\t¿")
 
-if texto[indice]== '='
+		elseif texto[indice]== '+'
+			println("\t  operador     +")
 
-if(texto[indice+1]== '=')
-println("   comparacion     ==")
-indice=indice+1
-else
-println("    asignacion    =")
-end
+		elseif texto[indice]== '='
+			if(texto[indice+1]== '=')
+				println("\tcomparacion     ==")
+				indice=indice+1
+			else
+				println("\t asignacion    =")
+			end
 
-end
+		elseif('0'<= texto[indice] <= '9' )
+			buffer= ""
+			while('0'<= texto[indice]<='9')
+				buffer = buffer*texto[indice]
+				indice = indice+1
+			end
+			indice = indice-1
+			println("\tnumero entero   "*buffer)
 
+		elseif 'a'<= texto[indice]<='z'
+			buffer = ""
+			while('a'<= texto[indice]<='z' || '0'<= texto[indice]<='9')
+				buffer = buffer*texto[indice]
+				indice = indice+1
+			end
 
-#if texto[indice] != " "
-
-#println("cosaaaa   "*texto[indice])
-
-if('0'<= texto[indice] <= '9' )
-buffer= ""
-
- while('0'<= texto[indice]<='9')
- buffer = buffer*texto[indice]
- indice = indice+1
- end
-
-  println("   numero entero   "*buffer)
-
-end
-
-#end
-
-
-
-if 'a'<= texto[indice]<='z'
- buffer = ""
-
- while('a'<= texto[indice]<='z' || '0'<= texto[indice]<='9')
- buffer = buffer*texto[indice]
- indice = indice+1
- end
-
- #println("la palabra encontrada es: "* buffer)
-
- if buffer== "origen"
-println("   palabra reservada   "*buffer)
-end
-
-
-if buffer== "inicio"
-println("   palabra reservada   "*buffer)
-end
-
-if buffer== "fin"
-println("   palabra reservada   "*buffer)
-end
-
-if buffer== "si"
-println("   palabra reservada   "*buffer)
-end
-
-if buffer== "imprimir"
-println("   palabra reservada   "*buffer)
-end
-
-
-if (match(Regex("[a-z]+[0-9]*[a-z]*"),buffer)== nothing)
- println("asco tu programa amiga")
- else
- println("  nombre_de_variable   "*buffer)
- end
-
- indice= indice-1
-end
-
-
-
-
-indice= indice+1
+			if buffer== "origen"
+				println("   palabra reservada   "*buffer)
+		    elseif buffer== "inicio"
+				println("   palabra reservada   "*buffer)
+			elseif buffer== "fin"
+				println("   palabra reservada   "*buffer)
+			elseif buffer== "si"
+				println("   palabra reservada   "*buffer)
+			elseif buffer== "imprimir"
+				println("   palabra reservada   "*buffer)
+			elseif (match(Regex("[a-z]+[0-9]*[a-z]*"),buffer) != nothing)
+				println("  nombre_de_variable   "*buffer)
+		    else
+		    	error("asco tu programa amiga, PALABRA NO RECONOCIDA "* buffer)
+			end
+			indice= indice-1
+	    else
+	       error("asco tu programa amiga, SIMBOLO NO RECONOCIDO "* texto[indice])
+		end
+		indice= indice+1
+	catch e
+	   if e isa ErrorException
+	   	 rethrow(e)
+	   else
+		indice= indice+1
+       end
+    end
 end
