@@ -1,3 +1,5 @@
+include("parserobjeto.jl")
+
 f = open("holamundo.val")
 read(f,String)
 texto = String(take!(f))
@@ -65,7 +67,7 @@ while(indice<= cantidad_caracteres)
 				indice = indice+1
 			end
             #println("\tstring   "*buffer*"\"")
-			push!(arreglo_tokens,token("string",buffer))
+			push!(arreglo_tokens,token("string",buffer*"\""))
 
 		elseif 'a'<= texto[indice]<='z'
 			buffer = ""
@@ -112,4 +114,46 @@ end
 #impresion de los tokens en pantalla (tipo y lexema)
 for token in arreglo_tokens
     println(token.tipo *"\t"*token.lexema)
+end
+
+mutable struct tokens
+    actual
+    siguiente
+    anterior
+    function tokens(datos)
+        arreglotokens =datos
+        indice = 1
+        fin =  length(arreglotokens)
+
+        function siguiente()
+            if indice<fin
+                indice = indice+1
+            end
+        end
+
+        function anterior()
+            if indice>1
+                indice = indice-1
+            end
+        end
+
+        function actual()
+            return arreglotokens[indice]
+        end
+        new(actual,siguiente,anterior)
+    end
+end
+
+
+todoslostokens = tokens(arreglo_tokens)
+
+
+println("parser-----------------")
+arbol= Parser(todoslostokens)
+
+println("programa:")
+t = typeof(arbol)
+for f in fieldnames(t)
+      elemento = getfield(arbol, f)
+      println(elemento)
 end

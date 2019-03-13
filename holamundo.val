@@ -2,8 +2,8 @@ origen¿? inicio
 #comentario
 variable1= 2
 variable2= 3
-variable5= variable1+5
-
+variable5= variable1+5+9+a+7
+imprimir¿"ola"?
 si ¿variable1==1? inicio
  imprimir¿"ola"?
 fin
