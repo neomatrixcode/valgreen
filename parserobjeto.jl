@@ -22,9 +22,13 @@ struct valor <:Node
 end
 
 struct objetoelementos <:Node
+  elemento
+  elementos
+end
+
+struct objetoelemento <:Node
   token
   noterminal
-  elementos
 end
 
 struct asignacion <:Node
@@ -135,26 +139,31 @@ function parser_valor(tokens)
 end
 
 function parser_elementos(tokens)
+    elemento = parser_elemento(tokens)
+    if elemento == nothing
+        return objetoelementos(elemento,nothing)
+    else
+      tokens.siguiente()
+      elementos = parser_elementos(tokens)
+      return objetoelementos(elemento,elementos)
+    end
+end
+
+function parser_elemento(tokens)
     token = tokens.actual()
     println("parser_elementos : ",token)
     if token.lexema == "imprimir"
       tokens.siguiente()
         parametro = parser_parametro(tokens)
-        tokens.siguiente()
-        elementos = parser_elementos(tokens)
-        return objetoelementos(token, parametro, elementos)
+        return objetoelemento(token, parametro)
     elseif token.lexema == "si"
         tokens.siguiente()
         ntif = parser_if(tokens)
-        tokens.siguiente()
-        elementos = parser_elementos(tokens)
-        return objetoelementos(token, ntif, elementos)
+        return objetoelemento(token, ntif)
     elseif token.tipo == "identificador"
         tokens.siguiente()
         asignacion = parser_asignacion(tokens)
-        tokens.siguiente()
-        elementos = parser_elementos(tokens)
-        return objetoelementos(token, asignacion, elementos)
+        return objetoelemento(token, asignacion)
     else
         tokens.anterior()
         return nothing
