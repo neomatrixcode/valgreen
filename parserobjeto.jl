@@ -1,3 +1,5 @@
+using Revise
+variableactual =""
 abstract type Node end
 struct programa <:Node
   token
@@ -29,11 +31,7 @@ end
 
 struct asignacion <:Node
   token
-  cosa
-end
-
-struct cosa <:Node
-  token
+  expresion
 end
 
 struct objetosuma <:Node
@@ -65,7 +63,7 @@ end
 
 
 function unexpected(tokenesperado,token)
-  return "error sintactico se esperaba el token "*tokenesperado*", pero se encontro  ' "*token.lexema*" ' "
+  return "error sintactico se esperaba el token "*tokenesperado*", pero se encontro  ' "*token.lexema*" ' CERCA DE  fila: "*string(token.fila)*" columna: "* string(token.columna)
 end
 function error_sintactico(esperado, token)
 return throw(ErrorException(unexpected(esperado,token)))
@@ -87,6 +85,7 @@ function parser_programa(tokens)
     return error_sintactico("origen", token)
 end
 
+
 function parser_cuerpoprograma(tokens)
     token = tokens.actual()
     if token.lexema == "inicio"
@@ -94,6 +93,7 @@ function parser_cuerpoprograma(tokens)
         elementos = parser_elementos(tokens)
         tokens.siguiente()
         token2 = tokens.actual()
+        println("token2  parser_cuerpoprograma  : ",token2)
         if token2.lexema == "fin"
             return cuerpo_programa(token,elementos,token2)
         else
@@ -106,7 +106,7 @@ end
 function parser_parametro(tokens)
     token = tokens.actual()
     if token.lexema == "¿"
-        tokens.siguiente()
+      tokens.siguiente()
         valor = parser_valor(tokens)
         tokens.siguiente()
         token2 = tokens.actual()
@@ -139,10 +139,11 @@ function parser_valor(tokens)
 end
 
 function parser_elementos(tokens)
-
+    global variableactual
     token = tokens.actual()
+    println("parser_elementos : ",token)
     if token.lexema == "imprimir"
-        tokens.siguiente()
+      tokens.siguiente()
         parametro = parser_parametro(tokens)
         tokens.siguiente()
         elementos = parser_elementos(tokens)
@@ -160,6 +161,7 @@ function parser_elementos(tokens)
         elementos = parser_elementos(tokens)
         return objetoelementos(token, asignacion, elementos)
     else
+        tokens.anterior()
         return nothing
     end
 
@@ -167,44 +169,63 @@ end
 
 function parser_asignacion(tokens)
     token = tokens.actual()
-        if token.lexema == "="
+    println("parser_asignacion", token)
+        if token.lexema== "="
             tokens.siguiente()
-            cosa = parser_cosa(tokens)
-            return asignacion(token, cosa)
+            expresion= parser_expresion(tokens)
+            tokens.siguiente()
+            token2= tokens.actual()
+            if token2.lexema == "+"
+                suma = parser_suma(tokens)
+                return asignacion(token, suma)
+            else
+                tokens.anterior()
+                return asignacion(token, expresion)
+            end
+        else
+          return error_sintactico(" = ", token)
         end
-    return error_sintactico("=", token)
+
 end
 
-function parser_cosa(tokens)
-    token = tokens.actual()
-    if token.tipo == "string"
-       return token
-    else
-       return parser_suma(tokens)
-    end
+function parser_expresion(tokens)
+  token= tokens.actual()
+   println("parser_expresion ", token)
+  if token.tipo == "string"
+    return token
+  elseif token.tipo == "identificador"
+    return token
+  elseif token.tipo == "numero_entero"
+    return token
+  end
+
+   return error_sintactico("string,identificador o un numero entero", token)
 end
+
 function parser_suma(tokens)
-    dato = parser_dato(tokens)
-    tokens.siguiente()
     token = tokens.actual()
+    println("parser_suma ",token)
     if token.lexema == "+"
-        tokens.siguiente()
-        suma = parser_suma(tokens)
-        return objetosuma(dato, token, suma)
+      tokens.siguiente()
+      dato = parser_dato(tokens)
+      tokens.siguiente()
+      suma = parser_suma(tokens)
+      return objetosuma(token, dato, suma)
     else
         tokens.anterior()
-        return dato
+        return nothing
     end
-
 end
+
 
 function parser_dato(tokens)
     token = tokens.actual()
+    println("parser_dato  ", token)
     if token.tipo == "identificador"
-        return dato(token)
+        return token
     end
     if  token.tipo == "numero_entero"
-        return dato(token)
+        return token
     end
 
 return error_sintactico(" identificador o un numero_entero ", token)
@@ -220,7 +241,7 @@ end
 function parser_comparacion(tokens)
     token = tokens.actual()
     if token.lexema == "¿"
-        tokens.siguiente()
+      tokens.siguiente()
         igualdad = parser_igualdad(tokens)
         tokens.siguiente()
         token2 = tokens.actual()
@@ -237,10 +258,10 @@ end
 function parser_igualdad(tokens)
     token = tokens.actual()
     if token.tipo == "identificador"
-        tokens.siguiente()
+      tokens.siguiente()
         token2 = tokens.actual()
         if token2.lexema == "=="
-            tokens.siguiente()
+          tokens.siguiente()
             token3 = tokens.actual()
             if token3.tipo == "numero_entero"
                 return igualdad(token,token2,token3)

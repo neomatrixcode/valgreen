@@ -1,11 +1,15 @@
-origen¿? inicio
+origen¿5? inicio
 #comentario
-variable1= 2
+variable1= "hola"
 variable2= 3
-variable5= variable1+5+9+a+7
-imprimir¿"ola"?
-si ¿variable1==1? inicio
- imprimir¿"ola"?
+variable8= variable1
+variable7= a+1+b+c+9
+
+si ¿variable==1? inicio
+a= 1
 fin
 
+variable9= 2
+
+fin
 fin
