@@ -1,4 +1,5 @@
 include("parserobjeto.jl")
+include("semantico.jl")
 
 f = open("holamundo.val")
 read(f,String)
@@ -178,9 +179,12 @@ todoslostokens = tokens(arreglo_tokens)
 
 println("parser-----------------")
 arbol= Parser(todoslostokens)
-println(arbol)
+#println(arbol)
 
-println(tabla_simbolos)
-println(tabla_simbolos["variable1"])
-#println("programa:")
 
+println("analisis semantico ---------------")
+
+recorre(arbol)
+
+#println(tabla_simbolos)
+#println(tabla_simbolos["variable1"])

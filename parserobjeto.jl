@@ -93,7 +93,7 @@ function parser_cuerpoprograma(tokens)
         elementos = parser_elementos(tokens)
         tokens.siguiente()
         token2 = tokens.actual()
-        println("token2  parser_cuerpoprograma  : ",token2)
+        #println("token2  parser_cuerpoprograma  : ",token2)
         if token2.lexema == "fin"
             return cuerpo_programa(token,elementos,token2)
         else
@@ -151,7 +151,7 @@ end
 
 function parser_elemento(tokens)
     token = tokens.actual()
-    println("parser_elementos : ",token)
+    #println("parser_elementos : ",token)
     if token.lexema == "imprimir"
       tokens.siguiente()
         parametro = parser_parametro(tokens)
@@ -173,7 +173,7 @@ end
 
 function parser_asignacion(tokens)
     token = tokens.actual()
-    println("parser_asignacion", token)
+    #println("parser_asignacion", token)
         if token.lexema== "="
             tokens.siguiente()
             expresion= parser_expresion(tokens)
@@ -188,7 +188,7 @@ end
 
 function parser_expresion(tokens)
   token= tokens.actual()
-   println("parser_expresion ", token)
+   #println("parser_expresion ", token)
   if token.tipo == "string"
     return token
   elseif token.tipo == "identificador"
@@ -202,7 +202,7 @@ end
 
 function parser_suma(tokens)
     token = tokens.actual()
-    println("parser_suma ",token)
+    #println("parser_suma ",token)
     if token.lexema == "+"
       tokens.siguiente()
       dato = parser_dato(tokens)
@@ -218,7 +218,7 @@ end
 
 function parser_dato(tokens)
     token = tokens.actual()
-    println("parser_dato  ", token)
+    #println("parser_dato  ", token)
     if token.tipo == "identificador"
         return token
     end
