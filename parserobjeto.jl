@@ -30,6 +30,7 @@ end
 struct asignacion <:Node
   token
   expresion
+  suma
 end
 
 struct objetosuma <:Node
@@ -168,14 +169,8 @@ function parser_asignacion(tokens)
             tokens.siguiente()
             expresion= parser_expresion(tokens)
             tokens.siguiente()
-            token2= tokens.actual()
-            if token2.lexema == "+"
-                suma = parser_suma(tokens)
-                return asignacion(token, suma)
-            else
-                tokens.anterior()
-                return asignacion(token, expresion)
-            end
+            suma = parser_suma(tokens)
+            return asignacion(token, expresion, suma)
         else
           return error_sintactico(" = ", token)
         end
@@ -193,7 +188,7 @@ function parser_expresion(tokens)
     return token
   end
 
-   return error_sintactico("string,identificador o un numero entero", token)
+   return error_sintactico("string, identificador o un numero entero", token)
 end
 
 function parser_suma(tokens)
@@ -226,10 +221,10 @@ return error_sintactico(" identificador o un numero_entero ", token)
 end
 
 function parser_if(tokens)
-compracion = parser_comparacion(tokens)
+comparacion = parser_comparacion(tokens)
 tokens.siguiente()
 cuerpo_programa = parser_cuerpoprograma(tokens)
-return ntif(compracion, cuerpo_programa)
+return ntif(comparacion, cuerpo_programa)
 end
 
 function parser_comparacion(tokens)
