@@ -1,5 +1,3 @@
-using Revise
-variableactual =""
 abstract type Node end
 struct programa <:Node
   token
@@ -40,9 +38,6 @@ struct objetosuma <:Node
   suma
 end
 
-struct dato <:Node
-  token
-end
 
 struct ntif <:Node
   comparacion
@@ -139,7 +134,6 @@ function parser_valor(tokens)
 end
 
 function parser_elementos(tokens)
-    global variableactual
     token = tokens.actual()
     println("parser_elementos : ",token)
     if token.lexema == "imprimir"

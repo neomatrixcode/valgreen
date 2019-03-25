@@ -148,7 +148,6 @@ mutable struct tokens
     actual
     siguiente
     anterior
-    ver_en_el_futuro
     function tokens(datos)
         arreglotokens =datos
         indice = 1
@@ -159,9 +158,6 @@ mutable struct tokens
                 indice = indice+1
             end
         end
-         function ver_en_el_futuro(valor)
-           return arreglotokens[indice+valor]
-         end
 
         function anterior()
             if indice>1
@@ -172,12 +168,10 @@ mutable struct tokens
         function actual()
         	return arreglotokens[indice]
         end
-        new(actual,siguiente,anterior,ver_en_el_futuro)
+        new(actual,siguiente,anterior)
     end
 end
 
-#println(tabla_simbolos)
-#println(tabla_simbolos["variable1"])
 
 todoslostokens = tokens(arreglo_tokens)
 
