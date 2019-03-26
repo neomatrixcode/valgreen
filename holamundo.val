@@ -5,7 +5,9 @@ variable2= variable1
 variable8= 8
 variable7= variable1+1+9
 
-si ¿variable==1? inicio
+var = 6
+
+si ¿var==1? inicio
 a= 1
 fin
 

@@ -61,6 +61,20 @@ valor = segmento.noterminal.expresion.lexema
 	end
 end
 
+function verifica_comparacion(segmento)
+variable = segmento.noterminal.comparacion.igualdad.token
+println(tabla_simbolos[variable.lexema]["tipo"])
+
+	try
+	  tabla_simbolos[variable.lexema]["tipo"]
+	catch e
+		error_sintactico(" la variable no se ha inicializado ", variable)
+	end
+
+	if tabla_simbolos[variable.lexema]["tipo"] !="numero_entero"
+		error_sintactico(" la variable a comparar debe ser de tipo entero ", variable)
+	end
+end
 
  function recorre(arbol)
 
@@ -78,7 +92,9 @@ end
 	                else
 	                    verifica_asignacion(elemento)
 	                end
-                end
+	            else string(typeof(elemento.noterminal)) == "ntif"
+	            	 verifica_comparacion(elemento)
+	            end
 
             else
 
