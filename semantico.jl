@@ -5,16 +5,44 @@
 # inicializados los identificadores
 
 function unexpected(mensaje,token)
-  return "Error semantico \n"*mensaje*" ["*token.lexema*"] CERCA DE  fila: "*string(token.fila)*" columna: "* string(token.columna)
+  return "Error semantico \n"*mensaje*" [ "*token.lexema*" ] CERCA DE  fila: "*string(token.fila)*" columna: "* string(token.columna)
 end
 
 function error_sematico(mensaje, token)
 return throw(ErrorException(unexpected(mensaje,token)))
 end
 
+function suma_recursiva(rama)
+    z = typeof(rama)
+	for e in fieldnames(z)
+	    elemento = getfield(rama, e)
+
+	    if elemento != nothing
+	    	if string(typeof(elemento)) == "token"
+	    		if elemento.tipo == "string"
+	    			error_sintactico(" no se puede sumar un string con un entero ", elemento)
+	    	    end
+	    	    if elemento.tipo == "identificador"
+	    	    	try
+			    		if tabla_simbolos[elemento.lexema]["tipo"]=="string"
+		                	error_sintactico(" no se puede sumar una varible tipo string con un entero ", elemento)
+			    		end
+			    	catch e
+			    		error_sintactico(" la variable no se ha inicializado ", elemento)
+			    	end
+	    		end
+	    	else
+	    		suma_recursiva(elemento)
+	    	end
+	    end
+	end
+end
+
 function verifica_suma(segmento)
-  println(" es una suma ===========\n",segmento)
-  println(tabla_simbolos)
+  variable = segmento.token.lexema
+  suma = segmento.noterminal
+  suma_recursiva(suma)
+  push!(tabla_simbolos[variable], "tipo"=>"numero_entero","valor"=>"-")
 end
 
 function verifica_asignacion(segmento)

@@ -1,9 +1,9 @@
 origen¿5? inicio
 #comentario
-variable1= "hola"
+variable1= 3
 variable2= variable1
 variable8= 8
-variable7= variable1+1+b+c+9
+variable7= variable1+1+9
 
 si ¿variable==1? inicio
 a= 1
