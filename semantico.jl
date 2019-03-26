@@ -24,12 +24,14 @@ function suma_recursiva(rama)
 	    	    end
 	    	    if elemento.tipo == "identificador"
 	    	    	try
-			    		if tabla_simbolos[elemento.lexema]["tipo"]=="string"
-		                	error_sintactico(" no se puede sumar una varible tipo string con un entero ", elemento)
-			    		end
+			    		tabla_simbolos[elemento.lexema]["tipo"]
 			    	catch e
 			    		error_sintactico(" la variable no se ha inicializado ", elemento)
 			    	end
+
+			    	if tabla_simbolos[elemento.lexema]["tipo"]=="string"
+		                error_sintactico(" no se puede sumar una variable tipo string con un entero ", elemento)
+			        end
 	    		end
 	    	else
 	    		suma_recursiva(elemento)
