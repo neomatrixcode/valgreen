@@ -4,6 +4,7 @@ include("semantico.jl")
 f = open("holamundo.val")
 read(f,String)
 texto = String(take!(f))
+texto= texto*" "
 
 cantidad_caracteres = length(texto)
 indice=1
