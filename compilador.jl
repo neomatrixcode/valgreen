@@ -34,27 +34,27 @@ while(indice<= cantidad_caracteres)
            columna=columna+5
 		elseif texto[indice]== '?'
 			#println("\tsimbolo_de_?\t?")
-			push!(arreglo_tokens,token("simbolo_de_?","?",fila,columna))
             columna=columna+1
+			push!(arreglo_tokens,token("simbolo_de_?","?",fila,columna))
 		elseif texto[indice]== '¿'
 			#println("\tsimbolo_de_¿\t¿")
-			push!(arreglo_tokens,token("simbolo_de_¿","¿",fila,columna))
             columna=columna+1
+			push!(arreglo_tokens,token("simbolo_de_¿","¿",fila,columna))
 
 		elseif texto[indice]== '+'
 			#println("\t  operador     +")
-			push!(arreglo_tokens,token("operador","+",fila,columna))
             columna= columna+1
+			push!(arreglo_tokens,token("operador","+",fila,columna))
 		elseif texto[indice]== '='
 			if(texto[indice+1]== '=')
 				#println("\tcomparacion     ==")
-			    push!(arreglo_tokens,token("comparacion","==",fila,columna))
 				indice= indice+1
 				columna=columna+2
+			    push!(arreglo_tokens,token("comparacion","==",fila,columna))
 			else
 				#println("\t asignacion    =")
-				push!(arreglo_tokens,token("asignacion","=",fila,columna))
 				columna= columna+1
+				push!(arreglo_tokens,token("asignacion","=",fila,columna))
 			end
 
 		elseif('0'<= texto[indice] <= '9' )
@@ -65,8 +65,7 @@ while(indice<= cantidad_caracteres)
 				columna=columna+1
 			end
 			indice = indice-1
-			columna= columna-1
-			#println("\tnumero entero   "*buffer)
+
 			push!(arreglo_tokens,token("numero_entero",buffer,fila,columna))
 
 		elseif texto[indice]=='#'
@@ -124,18 +123,17 @@ while(indice<= cantidad_caracteres)
 		    	error("ERROR LEXICO, PALABRA NO RECONOCIDA "* buffer)
 			end
 			indice= indice-1
-			columna=columna-1
 	    else
 	       error("ERROR LEXICO, SIMBOLO NO RECONOCIDO "* texto[indice])
 		end
 		indice= indice+1
-		columna=columna+1
+		#columna=columna+1
 	catch e
 	   if e isa ErrorException
 	   	 rethrow(e)
 	   else
 		indice= indice+1
-		columna=columna+1
+		#columna=columna+1
        end
     end
 end
