@@ -4,12 +4,12 @@
 #   ==
 # inicializados los identificadores
 
-function unexpected(mensaje,token)
+function unexpectedsemantico(mensaje,token)
   return "Error semantico \n"*mensaje*" [ "*token.lexema*" ] CERCA DE  fila: "*string(token.fila)*" columna: "* string(token.columna)
 end
 
 function error_sematico(mensaje, token)
-return throw(ErrorException(unexpected(mensaje,token)))
+return throw(ErrorException(unexpectedsemantico(mensaje,token)))
 end
 
 function suma_recursiva(rama)
@@ -20,17 +20,17 @@ function suma_recursiva(rama)
 	    if elemento != nothing
 	    	if string(typeof(elemento)) == "token"
 	    		if elemento.tipo == "string"
-	    			error_sintactico(" no se puede sumar un string con un entero ", elemento)
+	    			error_sematico(" no se puede sumar un string con un entero ", elemento)
 	    	    end
 	    	    if elemento.tipo == "identificador"
 	    	    	try
 			    		tabla_simbolos[elemento.lexema]["tipo"]
 			    	catch e
-			    		error_sintactico(" la variable no se ha inicializado ", elemento)
+			    		error_sematico(" la variable no se ha inicializado ", elemento)
 			    	end
 
 			    	if tabla_simbolos[elemento.lexema]["tipo"]=="string"
-		                error_sintactico(" no se puede sumar una variable tipo string con un entero ", elemento)
+		                error_sematico(" no se puede sumar una variable tipo string con un entero ", elemento)
 			        end
 	    		end
 	    	else
@@ -56,7 +56,7 @@ valor = segmento.noterminal.expresion.lexema
 	    try
 	        push!(tabla_simbolos[id], "tipo"=>tabla_simbolos[valor]["tipo"],"valor"=>tabla_simbolos[valor]["valor"])
 		catch e
-	        error_sintactico(" la variable no se ha inicializado ", segmento.noterminal.expresion)
+	        error_sematico(" la variable no se ha inicializado ", segmento.noterminal.expresion)
 		end
 	else
 		push!(tabla_simbolos[id], "tipo"=>tipo,"valor"=>valor)
@@ -64,17 +64,16 @@ valor = segmento.noterminal.expresion.lexema
 end
 
 function verifica_comparacion(segmento)
-variable = segmento.noterminal.comparacion.igualdad.token
-println(tabla_simbolos[variable.lexema]["tipo"])
+	variable = segmento.noterminal.comparacion.igualdad.token
 
 	try
 	  tabla_simbolos[variable.lexema]["tipo"]
 	catch e
-		error_sintactico(" la variable no se ha inicializado ", variable)
+		error_sematico(" la variable no se ha inicializado ", variable)
 	end
 
 	if tabla_simbolos[variable.lexema]["tipo"] !="numero_entero"
-		error_sintactico(" la variable a comparar debe ser de tipo entero ", variable)
+		error_sematico(" la variable a comparar debe ser de tipo entero ", variable)
 	end
 end
 

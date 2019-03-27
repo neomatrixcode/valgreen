@@ -1,12 +1,12 @@
 origen¿5? inicio
 #comentario
-variable1= 3
-variable2= variable1
+variable1= 2
+variable2= 2
 variable8= 8
-variable7= variable1+1+9
+variable7= variable1
 
-var = 6
 
+var = 3
 si ¿var==1? inicio
 a= 1
 fin

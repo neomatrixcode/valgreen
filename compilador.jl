@@ -186,5 +186,5 @@ println("analisis semantico ---------------")
 
 recorre(arbol)
 
-println(tabla_simbolos)
+#println(tabla_simbolos)
 #println(tabla_simbolos["variable1"])

@@ -62,11 +62,11 @@ struct igualdad <:Node
 end
 
 
-function unexpected(tokenesperado,token)
+function unexpectedsintactico(tokenesperado,token)
   return "error sintactico se esperaba el token "*tokenesperado*", pero se encontro  ' "*token.lexema*" ' CERCA DE  fila: "*string(token.fila)*" columna: "* string(token.columna)
 end
 function error_sintactico(esperado, token)
-return throw(ErrorException(unexpected(esperado,token)))
+return throw(ErrorException(unexpectedsintactico(esperado,token)))
 end
 
 function Parser(tokens)
@@ -203,6 +203,10 @@ end
 function parser_suma(tokens)
     token = tokens.actual()
     #println("parser_suma ",token)
+    if token.lexema == "="
+    return error_sintactico(" + ", token)
+    end
+
     if token.lexema == "+"
       tokens.siguiente()
       dato = parser_dato(tokens)
