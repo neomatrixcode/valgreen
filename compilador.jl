@@ -6,8 +6,7 @@ include("interprete.jl")
 f = open("holamundo.val")
 read(f,String)
 texto = String(take!(f))
-texto= texto*" "
-
+texto= texto*" \n"
 cantidad_caracteres = length(texto)
 indice=1
 

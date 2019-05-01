@@ -14,6 +14,7 @@ fin
 variable1= 2
 variable1= variable1+5
 
+imprimir¿3?
 imprimir¿variable1?
 
 fin

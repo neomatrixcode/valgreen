@@ -106,7 +106,7 @@ end
 function parser_parametro(tokens)
     token = tokens.actual()
     if token.lexema == "¿"
-      tokens.siguiente()
+        tokens.siguiente()
         valor = parser_valor(tokens)
         tokens.siguiente()
         token2 = tokens.actual()
@@ -153,7 +153,7 @@ function parser_elemento(tokens)
     token = tokens.actual()
     #println("parser_elementos : ",token)
     if token.lexema == "imprimir"
-      tokens.siguiente()
+        tokens.siguiente()
         parametro = parser_parametro(tokens)
         return objetoelemento(token, parametro)
     elseif token.lexema == "si"
