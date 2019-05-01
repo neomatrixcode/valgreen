@@ -14,4 +14,6 @@ fin
 variable1= 2
 d= variable1+5
 
+imprimir¿"ola"?
+
 fin

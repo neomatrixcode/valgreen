@@ -94,7 +94,9 @@ end
 	                    verifica_asignacion(elemento)
 	                end
 	            else string(typeof(elemento.noterminal)) == "ntif"
+	            	if (elemento.token.lexema == "si")
 	            	 verifica_comparacion(elemento)
+	            	end
 	            end
 
             else
