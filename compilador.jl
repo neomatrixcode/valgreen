@@ -1,5 +1,7 @@
 include("parserobjeto.jl")
 include("semantico.jl")
+include("intermedio.jl")
+include("interprete.jl")
 
 f = open("holamundo.val")
 read(f,String)
@@ -187,3 +189,9 @@ recorre(arbol)
 
 #println(tabla_simbolos)
 #println(tabla_simbolos["variable1"])
+println("representacion intermedia ---------------")
+codigogen= generador_codigointermedio(arbol)
+
+println("interprete ---------------")
+interprete(codigogen)
+
