@@ -12,8 +12,8 @@ a= 1
 fin
 
 variable1= 2
-d= variable1+5
+variable1= variable1+5
 
-imprimir¿"ola"?
+imprimir¿variable1?
 
 fin

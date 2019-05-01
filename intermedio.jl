@@ -58,14 +58,13 @@ function ri_suma(segmento)
   ri_suma_recursiva(suma)
 
   	try
-  		tabla_simbolos[variable]["temporal"]
+  		codigo_intermedio = codigo_intermedio * "$(tabla_simbolos[variable]["temporal"]) =  t$(indice_temporales-1)\n"
   	catch
-  	push!(tabla_simbolos[variable], "temporal"=>"t$(indice_temporales)")
-	indice_temporales= indice_temporales+1
+	  	push!(tabla_simbolos[variable], "temporal"=>"t$(indice_temporales)")
+		codigo_intermedio = codigo_intermedio * "t$(indice_temporales) =  t$(indice_temporales-1)\n"
+		indice_temporales= indice_temporales+1
     end
 
-    #println(" ",variable, " = ", "t$(indice_temporales-2)")
-    codigo_intermedio = codigo_intermedio * "$(variable) =  t$(indice_temporales-2)\n"
 end
 
 function ri_asignacion(segmento)
@@ -101,6 +100,18 @@ valor = segmento.noterminal.expresion.lexema
 
 end
 
+function traslada_impresion(segmento)
+	global codigo_intermedio
+
+	dato_a_imprimir = segmento.noterminal.valor.token
+	if dato_a_imprimir.tipo=="identificador"
+		codigo_intermedio = codigo_intermedio * "println($(tabla_simbolos[dato_a_imprimir.lexema]["temporal"]))\n"
+	else
+		codigo_intermedio = codigo_intermedio * "println($(dato_a_imprimir.lexema))\n"
+	end
+
+end
+
 #=function verifica_comparacion(segmento)
 	variable = segmento.noterminal.comparacion.igualdad.token
 
@@ -131,8 +142,14 @@ end=#
 	                else
 	                    ri_asignacion(elemento)
 	                end
-	            #=else string(typeof(elemento.noterminal)) == "ntif"
-	            	 verifica_comparacion(elemento)=#
+	            else string(typeof(elemento.noterminal)) == "ntif"
+	            	#=if (elemento.token.lexema == "si")
+	            	 verifica_comparacion(elemento)
+	            	end=#
+	            	if (elemento.token.lexema == "imprimir")
+	            	 traslada_impresion(elemento)
+	            	end
+
 	            end
 
             else
