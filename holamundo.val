@@ -14,7 +14,7 @@ fin
 variable1= 2
 variable1= variable1+5
 
-imprimir¿3?
+imprimir¿"el resultado de variable1+5 es "?
 imprimir¿variable1?
 
 fin

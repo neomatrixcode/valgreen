@@ -87,10 +87,10 @@ valor = segmento.noterminal.expresion.lexema
     catch e
         if tipo=="identificador"
 			#println(" t$(indice_temporales) =", tabla_simbolos[valor]["temporal"])
-			codigo_intermedio = codigo_intermedio *  " t$(indice_temporales) = $(tabla_simbolos[valor]["temporal"])\n"
+			codigo_intermedio = codigo_intermedio *  "t$(indice_temporales) = $(tabla_simbolos[valor]["temporal"])\n"
 	    else
 	    	#println(" t$(indice_temporales) =", valor)
-	    	codigo_intermedio = codigo_intermedio * " t$(indice_temporales) = $(valor)\n"
+	    	codigo_intermedio = codigo_intermedio * "t$(indice_temporales) = $(valor)\n"
 	    end
 
 	  push!(tabla_simbolos[id], "temporal"=>"t$(indice_temporales)")

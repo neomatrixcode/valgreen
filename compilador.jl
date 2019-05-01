@@ -2,6 +2,7 @@ include("parserobjeto.jl")
 include("semantico.jl")
 include("intermedio.jl")
 include("interprete.jl")
+include("transpilador.jl")
 
 f = open("holamundo.val")
 read(f,String)
@@ -141,9 +142,9 @@ while(indice<= cantidad_caracteres)
 end
 
 #impresion de los tokens en pantalla (tipo y lexema)
-for token in arreglo_tokens
+#=for token in arreglo_tokens
     println(token.tipo *"\t"*token.lexema*"\t("*string(token.fila)*","*string(token.columna)*")")
-end
+end=#
 
 mutable struct tokens
     actual
@@ -177,20 +178,24 @@ end
 todoslostokens = tokens(arreglo_tokens)
 
 
-println("parser-----------------")
+#println("parser-----------------")
 arbol= Parser(todoslostokens)
 #println(arbol)
 
 
-println("analisis semantico ---------------")
-
+#println("analisis semantico ---------------")
 recorre(arbol)
 
 #println(tabla_simbolos)
 #println(tabla_simbolos["variable1"])
-println("representacion intermedia ---------------")
+#println("representacion intermedia ---------------")
 codigogen= generador_codigointermedio(arbol)
 
 println("interprete ---------------")
 interprete(codigogen)
 
+println("transpilador ---------------")
+
+conversion_a_python(codigogen)
+conversion_a_js(codigogen)
+conversion_a_ruby(codigogen)
