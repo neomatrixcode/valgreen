@@ -1,5 +1,9 @@
 segment .data
-dato2  db "el resultado de variable1+5 es ",0xA,0xD 
+dato4  db "el resultado de variable1+5 es ",0xA,0xD 
+londato4 equ $- dato4
+dato3  db " ",0xA,0xD 
+londato3 equ $- dato3
+dato2  db "la variable var vale ",0xA,0xD 
 londato2 equ $- dato2
 dato1  db "68",0xA,0xD 
 londato1 equ $- dato1
@@ -46,6 +50,20 @@ mov ebx, 0
 mov ecx, dato1
 mov edx, londato1
 int 0x80
+
+mov eax, 4
+mov ebx, 0
+mov ecx, dato2
+mov edx, londato2
+int 0x80
+mov eax,[t8]
+add eax, 48
+mov [t8],eax
+mov eax, 4
+mov ebx, 0
+mov ecx, t8
+mov edx, 1
+int 0x80
     mov eax,2 
     mov [t1],eax
 
@@ -62,8 +80,14 @@ int 0x80
 
 mov eax, 4
 mov ebx, 0
-mov ecx, dato2
-mov edx, londato2
+mov ecx, dato3
+mov edx, londato3
+int 0x80
+
+mov eax, 4
+mov ebx, 0
+mov ecx, dato4
+mov edx, londato4
 int 0x80
 mov eax,[t1]
 add eax, 48

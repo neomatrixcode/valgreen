@@ -7,9 +7,12 @@ t6 = t5 + 9
 t7 =  t6
 t8 = 6
 puts 68 
+puts "la variable var vale " 
+puts t8 
 t1 = 2
 t9 = t1
 t10 = t9 + 5
 t1 =  t10
+puts " " 
 puts "el resultado de variable1+5 es " 
 puts t1 
