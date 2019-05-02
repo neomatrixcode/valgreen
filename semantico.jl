@@ -77,6 +77,19 @@ function verifica_comparacion(segmento)
 	end
 end
 
+function verifica_impresion(segmento)
+    #println(segmento.noterminal.valor)
+    dato= segmento.noterminal.valor.token
+
+    if dato.tipo=="identificador"
+	    try
+		  tabla_simbolos[dato.lexema]["tipo"]
+		catch e
+			error_sematico(" la variable no se ha inicializado ", dato)
+		end
+    end
+end
+
  function recorre(arbol)
 
 	t = typeof(arbol)
@@ -96,6 +109,9 @@ end
 	            else string(typeof(elemento.noterminal)) == "ntif"
 	            	if (elemento.token.lexema == "si")
 	            	 verifica_comparacion(elemento)
+	            	end
+	            	if (elemento.token.lexema == "imprimir")
+	            	 verifica_impresion(elemento)
 	            	end
 	            end
 
