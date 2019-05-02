@@ -71,7 +71,7 @@ function conversion_a_ensamblador(codigo_intermedio)
 					 	instruccion = replace(instruccion, "\"" => "")
 					 	instruccion = replace(instruccion, "\"" => "")
                         instruccion = "\""*instruccion*"\""
-					 	segmento_de_datos = "dato$(indicemsg)  db $(instruccion),0xA,0xD \nlondato$(indicemsg) equ \$- dato$(indicemsg)\n"* segmento_de_datos
+					 	segmento_de_datos = "dato$(indicemsg)  db 0xA,0xD,$(instruccion) \nlondato$(indicemsg) equ \$- dato$(indicemsg)\n"* segmento_de_datos
 
 					 	segmento_de_codigo= segmento_de_codigo * "\nmov eax, 4\nmov ebx, 0\nmov ecx, dato$(indicemsg)\nmov edx, londato$(indicemsg)\nint 0x80\n"
 

@@ -3,7 +3,10 @@ origen¿? inicio
 variable1= 3
 variable2= variable1
 variable8= 8
-variable7= variable1+1+9
+variable7= variable1+1+5
+
+imprimir¿"la variable7 vale "?
+imprimir¿variable7?
 
 var = 6
 
@@ -17,7 +20,6 @@ fin
 
 variable1= 2
 variable1= variable1+5
-imprimir¿" "?
 imprimir¿"el resultado de variable1+5 es "?
 imprimir¿variable1?
 
