@@ -143,9 +143,9 @@ while(indice<= cantidad_caracteres)
 end
 
 #impresion de los tokens en pantalla (tipo y lexema)
-#=for token in arreglo_tokens
+for token in arreglo_tokens
     println(token.tipo *"\t"*token.lexema*"\t("*string(token.fila)*","*string(token.columna)*")")
-end=#
+end
 
 mutable struct tokens
     actual
